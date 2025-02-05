@@ -1,0 +1,233 @@
+--1.Inserimento automatico dell'intervento per un'anomalia critica:
+--Quando viene registrata un'anomalia con priorità "critica", il trigger inserisce
+--automaticamente un intervento con una descrizione predefinita ("Intervento urgente richiesto") 
+--e assegna una data di esecuzione immediata.
+CREATE OR REPLACE TRIGGER trg_insert_intervento_critico
+AFTER INSERT ON Anomalie
+FOR EACH ROW
+BEGIN
+    IF :NEW.LIVELLO_PRIORITA = 3 THEN
+        -- Dichiarazione della variabile
+        DECLARE
+            ULTIMO_ID INTERVENTI.CODICE%TYPE;
+			V_COUNT   NUMBER;
+        BEGIN
+            -- Primo step: creo l'ID del nuovo intervento
+            SELECT COUNT(*)  INTO V_COUNT FROM INTERVENTI ;
+            IF V_COUNT=0 THEN
+            	ULTIMO_ID:=1;
+			ELSE
+            	SELECT (MAX(CODICE) + 1) INTO ULTIMO_ID FROM INTERVENTI;
+			END IF;
+            -- Creo l'intervento
+            INSERT INTO INTERVENTI (CODICE, DESCRIZIONE)
+            VALUES (ULTIMO_ID, 'Anomalia critica rilevata, intervento urgente!!');
+            -- Creazione delle risoluzioni
+            INSERT INTO RISOLUZIONI VALUES (NULL, :NEW.DATA, ULTIMO_ID,:NEW.DATA, :NEW.ORA, :NEW.SENSORE);
+        END;
+    END IF;
+END;
+
+--2.Aggiornamento dello stato del sensore:
+--Quando viene registrata un'anomalia, il trigger aggiorna automaticamente lo stato operativo del sensore associato a "malfunzionante".
+CREATE OR REPLACE TRIGGER aggiorna_stato_sensore
+AFTER INSERT ON ANOMALIE
+FOR EACH ROW
+BEGIN
+    UPDATE SENSORI
+    SET STATO_OPERATIVO = 'Malfunzionante'
+    WHERE ID = :NEW.SENSORE;
+END;
+/
+
+--3.Aggiornamento automatico dello stato operativo: 
+--Se il numero di anomalie registrate per un sensore supera una certa soglia, il trigger cambia il suo stato operativo a 'In manutenzione'. 
+CREATE OR REPLACE TRIGGER aggiorna_stato_in_manutenzione_soglia
+AFTER INSERT ON ANOMALIE
+FOR EACH ROW
+DECLARE
+    v_num_anomalie NUMBER;
+    v_soglia NUMBER := 5; -- Soglia predefinita per il numero di anomalie
+BEGIN
+    -- Conta il numero di anomalie per il sensore associato
+    SELECT COUNT(*)
+    INTO v_num_anomalie
+    FROM anomalie
+    WHERE sensore = :NEW.sensore;
+
+    -- Se il numero di anomalie supera la soglia, aggiorna lo stato del sensore
+    IF v_num_anomalie > v_soglia THEN
+        UPDATE SENSORI
+        SET STATO_OPERATIVO = 'In manutenzione'
+        WHERE ID = :NEW.sensore;
+    END IF;
+END;
+/
+
+------------------------------------------------------------------------------------------------------------------------------------
+ --4.Inserimento della data prefissata di esecuzione di un intervento al verificarsi di un'anomalia (PER ANOMALIE NON CRITICHEE)-> CREARE VISTA
+CREATE OR REPLACE TRIGGER trg_insert_intervento
+AFTER INSERT ON Anomalie
+FOR EACH ROW
+DECLARE
+    ULTIMO_ID INTERVENTI.CODICE%TYPE;
+    V_COUNT   NUMBER;
+    V_DATE    DATE;
+BEGIN
+    -- Esegui solo per anomalie non critiche
+    IF :NEW.LIVELLO_PRIORITA < 3 THEN
+        -- Calcolo del prossimo ID per la tabella INTERVENTI
+        SELECT COUNT(*) INTO V_COUNT FROM INTERVENTI;
+        
+        IF V_COUNT = 0 THEN
+            ULTIMO_ID := 1; -- Primo intervento
+        ELSE
+            SELECT MAX(CODICE) + 1 INTO ULTIMO_ID FROM INTERVENTI;
+        END IF;
+
+        -- Calcolo della data di risoluzione predefinita (una settimana dopo l'anomalia)
+        V_DATE := :NEW.DATA + 7;
+
+        -- Inserimento dell'intervento nella tabella INTERVENTI
+        INSERT INTO INTERVENTI (CODICE, DESCRIZIONE)
+        VALUES (ULTIMO_ID, 'Intervento default_automatizzato');
+
+        -- Inserimento della risoluzione nella tabella RISOLUZIONI
+        INSERT INTO RISOLUZIONI
+        VALUES (NULL, V_DATE, ULTIMO_ID, :NEW.DATA, :NEW.ORA, :NEW.SENSORE);
+    END IF;
+END;
+--------------------------------------------------------------------------------------------------------------
+--TRIGGER DI CONSISTENZA
+--5.Verifica che le date fine nelle missioni siano successive alla data di inizio (altrimenti annulla INSERT)
+CREATE OR REPLACE TRIGGER verifica_date_missione
+BEFORE INSERT ON MISSIONI
+FOR EACH ROW
+BEGIN
+    -- Verifica se la data di fine è precedente alla data di inizio
+    IF :NEW.DATA_FINE < :NEW.DATA_INIZIO THEN
+        -- Lancia un errore se la data di fine è antecedente alla data di inizio
+        RAISE_APPLICATION_ERROR(-20001, 'La data di fine deve essere successiva alla data di inizio.');
+    END IF;
+END;
+/
+
+--6.Verifica che le date di pubblicaz. di un report non siano precedenti alla data dell'ultimo report e alla data di inizio della missione (altrimenti annulla INSERT)
+CREATE OR REPLACE TRIGGER verifica_date_report
+BEFORE INSERT ON report
+FOR EACH ROW
+DECLARE
+    v_data_ultimo_report DATE;
+    v_data_inizio_missione DATE;
+BEGIN
+    -- Recupera la data dell'ultimo report pubblicato
+    SELECT MAX(DATA)
+    INTO v_data_ultimo_report
+    FROM report
+    WHERE MISSIONE = :NEW.MISSIONE;
+
+    -- Recupera la data di inizio della missione associata al nuovo report
+    SELECT DATA_INIZIO
+    INTO v_data_inizio_missione
+    FROM missioni
+    WHERE CODICE = :NEW.CODICE;
+
+    -- Verifica che la data di pubblicazione non sia precedente all'ultimo report
+    IF :NEW.DATA < v_data_ultimo_report THEN
+        RAISE_APPLICATION_ERROR(-20001, 'La data di pubblicazione del report non può essere precedente a quella dell''ultimo report.');
+    END IF;
+
+    -- Verifica che la data di pubblicazione non sia precedente alla data di inizio della missione
+    IF :NEW.DATA < v_data_inizio_missione THEN
+        RAISE_APPLICATION_ERROR(-20002, 'La data di pubblicazione del report non può essere precedente alla data di inizio della missione.');
+    END IF;
+END;
+/
+
+--7.Quando viene inserita una Risoluzione, Esito deve essere posto a NULL (Modifica l'INSERT)(Before)
+CREATE OR REPLACE TRIGGER imposta_risoluzioni_esito_null
+BEFORE INSERT ON risoluzioni
+FOR EACH ROW
+BEGIN
+    -- Imposta il campo Esito a NULL prima dell'inserimento
+    :NEW.esito := NULL;
+END;
+/
+
+--8.Data anomalia successiva alla data di installazione sensore (altrimenti annulla INSERT)
+CREATE OR REPLACE TRIGGER verifica_data_anomalia
+BEFORE INSERT ON ANOMALIE
+FOR EACH ROW
+DECLARE
+    v_data_installazione DATE;
+BEGIN
+    -- Recupera la data di installazione del sensore associato all'anomalia
+    SELECT data_installazione
+    INTO v_data_installazione
+    FROM sensori
+    WHERE ID = :NEW.SENSORE;
+
+    -- Verifica che la data dell'anomalia non sia precedente alla data di installazione del sensore
+    IF :NEW.DATA < v_data_installazione THEN
+        RAISE_APPLICATION_ERROR(-20001, 'La data dell''anomalia non può essere precedente alla data di installazione del sensore.');
+    END IF;
+END;
+/
+
+--9. Data di esecuzione di una risoluzione >= data dell anomalia (altrimenti annulla INSERT) 
+CREATE OR REPLACE TRIGGER verifica_data_risoluzione
+BEFORE INSERT ON RISOLUZIONI
+FOR EACH ROW
+DECLARE
+    v_data_anomalia DATE;
+BEGIN
+    -- Recupera la data dell'anomalia associata alla risoluzione
+    SELECT DATA
+    INTO v_data_anomalia
+    FROM ANOMALIE A
+    WHERE A.DATA= :NEW.ANOMALIADATA AND A.ORA=:NEW.ANOMALIAORA AND A.SENSORE=:NEW.ANOMALIASENSORE;
+
+    -- Verifica che la data di esecuzione della risoluzione sia >= alla data dell'anomalia
+    IF :NEW.DATAESECUZIONE < v_data_anomalia THEN
+        RAISE_APPLICATION_ERROR(-20002, 'La data di esecuzione della risoluzione deve essere uguale o successiva alla data dell''anomalia.');
+    END IF;
+END;
+/
+
+-----------------------------------------------------------------------------------
+--TRIGGER DI UPDATE CASCADE
+--10. Cambiamento codice di una missione-> update su risorsa_1,2,3, report
+CREATE OR REPLACE TRIGGER trg_update_cascade_missione
+AFTER UPDATE OF CODICE ON MISSIONI
+FOR EACH ROW
+BEGIN
+    UPDATE RISORSE_1
+    SET MISSIONE=:NEW.CODICE
+    WHERE MISSIONE=:OLD.CODICE;
+    
+    UPDATE RISORSE_2
+    SET MISSIONE=:NEW.CODICE
+    WHERE MISSIONE=:OLD.CODICE;
+
+    UPDATE RISORSE_3
+    SET MISSIONE=:NEW.CODICE
+    WHERE MISSIONE=:OLD.CODICE;
+
+    UPDATE REPORT
+    SET MISSIONE=:NEW.CODICE
+    WHERE MISSIONE=:OLD.CODICE;
+END;
+/
+
+--11. Imposta una  nuova data di esecuzione per un intervento se questo genera fallimento (esito = false)
+CREATE OR REPLACE TRIGGER trg_nuova_data_esec_per_fallimento
+BEFORE UPDATE ON risoluzioni
+FOR EACH ROW
+WHEN (NEW.ESITO = 'FALSE')
+BEGIN
+    -- Aggiorna la data prefissata di esecuzione per l'interventO
+    -- Ad esempio, una settimana dopo
+     :NEW.DATAESECUZIONE := :OLD.DATAESECUZIONE + 7;
+     :NEW.ESITO := NULL;
+END;
+/

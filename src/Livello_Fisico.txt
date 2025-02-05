@@ -1,0 +1,197 @@
+-- Tabella MISSIONI
+CREATE TABLE MISSIONI (
+    Codice NUMBER PRIMARY KEY,
+    Data_Fine DATE,
+    Data_Inizio DATE,
+    Obiettivo VARCHAR2(255),
+    Stato_Attuale VARCHAR2(100)
+);
+
+-- Tabella MEMBRI_EQUIPAGGIO
+CREATE TABLE MEMBRI_EQUIPAGGIO (
+    Codice NUMBER PRIMARY KEY,
+    Nome VARCHAR2(100),
+    Cognome VARCHAR2(100)
+);
+
+-- Tabella INTERVENTI
+CREATE TABLE INTERVENTI (
+    Codice NUMBER PRIMARY KEY,
+    Descrizione VARCHAR2(255)
+);
+
+-- Tabella ANOMALIE
+CREATE TABLE ANOMALIE (
+    Data DATE,
+    Ora VARCHAR2(5),
+    Sensore NUMBER,
+    Livello_Priorita NUMBER,
+    Causa VARCHAR2(255),
+    PRIMARY KEY (Data, Ora, Sensore)
+);
+
+-- Tabella SENSORI
+CREATE TABLE SENSORI (
+    ID NUMBER PRIMARY KEY,
+    Data_Installazione DATE,
+    Data_Ultimo_Controllo DATE,
+    Tipologia VARCHAR2(100),
+    Stato_Operativo VARCHAR2(100) CHECK (Stato_Operativo='Operativo' OR Stato_Operativo='Non operativo' OR Stato_Operativo='In manutenzione' OR Stato_Operativo='Malfunzionante'),
+    Latitudine FLOAT,
+    Longitudine FLOAT,
+    Altitudine FLOAT
+);
+
+-- Tabella RILEVAZIONI
+CREATE TABLE RILEVAZIONI (
+    Data DATE,
+    Ora VARCHAR2(5),
+    Sensore NUMBER,
+    Valore FLOAT,
+    PRIMARY KEY (Data, Ora, Sensore)
+);
+
+-- Tabella REPORT
+CREATE TABLE REPORT (
+    Codice NUMBER PRIMARY KEY,
+    Testo CLOB,
+    Data DATE,
+    Stato_Comunicato VARCHAR2(100),
+    Missione NUMBER
+);
+
+-- Tabella ROBOT
+CREATE TABLE ROBOT (
+    ID NUMBER PRIMARY KEY,
+    Tipologia VARCHAR2(100)
+);
+
+-- Tabella RISORSE_1
+CREATE TABLE RISORSE_1 (
+    Missione NUMBER,
+    Robot NUMBER,
+    PRIMARY KEY (Missione, Robot)
+);
+
+-- Tabella RISORSE_2
+CREATE TABLE RISORSE_2 (
+    Missione NUMBER,
+    Sensore NUMBER,
+    PRIMARY KEY (Missione, Sensore)
+);
+
+-- Tabella RISORSE_3
+CREATE TABLE RISORSE_3 (
+    Missione NUMBER,
+    Membro NUMBER,
+    Ruolo VARCHAR2(100),
+    PRIMARY KEY (Missione, Membro)
+);
+
+-- Tabella MANUTENZIONI
+CREATE TABLE MANUTENZIONI (
+    Data DATE,
+    Membro NUMBER,
+    Sensore NUMBER,
+    PRIMARY KEY (Data, Membro, Sensore)
+);
+
+-- Tabella RIPARAZIONI
+CREATE TABLE RIPARAZIONI (
+    Data DATE,
+    Membro NUMBER,
+    Sensore NUMBER,
+    PRIMARY KEY (Data, Membro, Sensore)
+);
+
+-- Tabella COINVOLGIMENTI
+CREATE TABLE COINVOLGIMENTI (
+    Membro NUMBER,
+    Intervento NUMBER,
+    PRIMARY KEY (Membro, Intervento)
+);
+
+-- Tabella RISOLUZIONI
+CREATE TABLE RISOLUZIONI (
+    Esito VARCHAR2(5) CHECK (Esito='TRUE' OR Esito='FALSE'),
+    DataEsecuzione DATE,
+    Intervento NUMBER,
+    AnomaliaData DATE,
+    AnomaliaOra VARCHAR2(5),
+    AnomaliaSensore NUMBER,
+    PRIMARY KEY (Intervento),
+    UNIQUE (AnomaliaData, AnomaliaOra, AnomaliaSensore)
+);
+
+-----------------------------------------------------------
+
+-- Chiave esterna per RISORSE_3
+ALTER TABLE RISORSE_3
+ADD CONSTRAINT FK_Missione_Risorse_3 FOREIGN KEY (Missione) REFERENCES MISSIONI(Codice)
+ON DELETE CASCADE;
+ALTER TABLE RISORSE_3
+ADD CONSTRAINT FK_Membro_Risorse_3 FOREIGN KEY (Membro) REFERENCES MEMBRI_EQUIPAGGIO(Codice)
+ON DELETE CASCADE;
+
+-- Chiave esterna per ANOMALIE
+ALTER TABLE ANOMALIE
+ADD CONSTRAINT FK_Sensore_Anomalie FOREIGN KEY (Sensore) REFERENCES SENSORI(ID)
+ON DELETE CASCADE;
+
+-- Chiave esterna per RILEVAZIONI
+ALTER TABLE RILEVAZIONI
+ADD CONSTRAINT FK_Sensore_Rilevazioni FOREIGN KEY (Sensore) REFERENCES SENSORI(ID)
+ON DELETE CASCADE;
+
+-- Chiave esterna per REPORT
+ALTER TABLE REPORT
+ADD CONSTRAINT FK_Missione_Report FOREIGN KEY (Missione) REFERENCES MISSIONI(Codice)
+ON DELETE SET NULL;
+
+-- Chiave esterna per RISORSE_1
+ALTER TABLE RISORSE_1
+ADD CONSTRAINT FK_Missione_Risorse_1 FOREIGN KEY (Missione) REFERENCES MISSIONI(Codice)
+ON DELETE CASCADE;
+ALTER TABLE RISORSE_1
+ADD CONSTRAINT FK_Robot_Risorse_1 FOREIGN KEY (Robot) REFERENCES ROBOT(ID)
+ON DELETE CASCADE;
+
+-- Chiave esterna per RISORSE_2
+ALTER TABLE RISORSE_2
+ADD CONSTRAINT FK_Missione_Risorse_2 FOREIGN KEY (Missione) REFERENCES MISSIONI(Codice)
+ON DELETE CASCADE;
+ALTER TABLE RISORSE_2
+ADD CONSTRAINT FK_Sensore_Risorse_2 FOREIGN KEY (Sensore) REFERENCES SENSORI(ID)
+ON DELETE CASCADE;
+
+-- Chiave esterna per MANUTENZIONI
+ALTER TABLE MANUTENZIONI
+ADD CONSTRAINT FK_Membro_Manutenzioni FOREIGN KEY (Membro) REFERENCES MEMBRI_EQUIPAGGIO(Codice)
+ON DELETE CASCADE;
+ALTER TABLE MANUTENZIONI
+ADD CONSTRAINT FK_Sensore_Manutenzioni FOREIGN KEY (Sensore) REFERENCES SENSORI(ID)
+ON DELETE CASCADE;
+
+-- Chiave esterna per RIPARAZIONI
+ALTER TABLE RIPARAZIONI
+ADD CONSTRAINT FK_Membro_Riparazioni FOREIGN KEY (Membro) REFERENCES MEMBRI_EQUIPAGGIO(Codice)
+ON DELETE CASCADE;
+ALTER TABLE RIPARAZIONI
+ADD CONSTRAINT FK_Sensore_Riparazioni FOREIGN KEY (Sensore) REFERENCES SENSORI(ID)
+ON DELETE CASCADE;
+
+-- Chiave esterna per COINVOLGIMENTI
+ALTER TABLE COINVOLGIMENTI
+ADD CONSTRAINT FK_Membro_Coinvolgimenti FOREIGN KEY (Membro) REFERENCES MEMBRI_EQUIPAGGIO(Codice)
+ON DELETE CASCADE;
+ALTER TABLE COINVOLGIMENTI
+ADD CONSTRAINT FK_Intervento_Coinvolgimenti FOREIGN KEY (Intervento) REFERENCES INTERVENTI(Codice)
+ON DELETE CASCADE;
+
+-- Chiave esterna per RISOLUZIONI
+ALTER TABLE RISOLUZIONI
+ADD CONSTRAINT FK_Intervento_Risoluzioni FOREIGN KEY (Intervento) REFERENCES INTERVENTI(Codice)
+ON DELETE CASCADE;
+ALTER TABLE RISOLUZIONI
+ADD CONSTRAINT FK_Anomalia_Risoluzioni FOREIGN KEY (AnomaliaData, AnomaliaOra, AnomaliaSensore) REFERENCES ANOMALIE(Data, Ora, Sensore)
+ON DELETE CASCADE;

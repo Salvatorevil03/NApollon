@@ -1,0 +1,437 @@
+--PER FAR FUNZIONARE E DATE, CHE HANNO FORMATO YYYY-MM(num)-DD
+ALTER SESSION SET NLS_DATE_FORMAT = 'DD-MON-YYYY';
+
+INSERT INTO MISSIONI VALUES (1, '15-OCT-2024', '01-MAY-2023', 'Estabilire una base lunare permanente', 'In corso');
+INSERT INTO MISSIONI VALUES (2, '20-FEB-2025', '01-NOV-2024', 'Ricercare risorse minerarie sulla Luna', 'Iniziata');
+INSERT INTO MISSIONI VALUES (3, '10-SEP-2023', '05-JAN-2022', 'Installare un osservatorio astronomico sulla Luna', 'Conclusa');
+INSERT INTO MISSIONI VALUES (4, '31-DEC-2026', '01-JUL-2025', 'Costruire un laboratorio scientifico sulla Luna', 'In corso');
+INSERT INTO MISSIONI VALUES (5, '15-MAR-2023', '01-JAN-2022', 'Sperimentare la produzione di ossigeno sulla Luna', 'Conclusa');
+INSERT INTO MISSIONI VALUES (6, '01-NOV-2024', '10-AUG-2024', 'Esplorare i poli lunari', 'In corso');
+INSERT INTO MISSIONI VALUES (7, '30-JUN-2027', '15-JAN-2026', 'Testare la terraformazione lunare', 'Iniziata');
+INSERT INTO MISSIONI VALUES (8, '20-SEP-2025', '01-JUN-2024', 'Installare una stazione di rifornimento lunare', 'Conclusa');
+INSERT INTO MISSIONI VALUES (9, '10-DEC-2024', '01-OCT-2024', 'Mappare la superficie lunare', 'Conclusa');
+INSERT INTO MISSIONI VALUES (10, '25-AUG-2026', '01-APR-2025', 'Creare un avamposto di ricerca per la biologia lunare', 'In corso');
+INSERT INTO MISSIONI VALUES (11, '15-JUN-2023', '01-FEB-2023', 'Sperimentare la coltivazione di piante sulla Luna', 'Conclusa');
+INSERT INTO MISSIONI VALUES (12, '10-JAN-2027', '01-SEP-2026', 'Esplorare le grotte lunari per rifugi naturali', 'Iniziata');
+INSERT INTO MISSIONI VALUES (13, '20-MAY-2025', '01-DEC-2024', 'Sviluppare tecnologie per la propulsione lunare', 'In corso');
+INSERT INTO MISSIONI VALUES (14, '10-APR-2024', '01-MAR-2024', 'Costruire una rete di comunicazione globale sulla Luna', 'Conclusa');
+INSERT INTO MISSIONI VALUES (15, '01-MAR-2027', '01-NOV-2026', 'Sperimentare la creazione di energia solare lunare', 'Iniziata');
+INSERT INTO MISSIONI VALUES (16, '25-JUL-2024', '01-APR-2024', 'Monitorare il clima lunare', 'Conclusa');
+INSERT INTO MISSIONI VALUES (17, '15-OCT-2026', '01-JUN-2025', 'Instaurare collegamenti tra la Luna e Marte', 'In corso');
+INSERT INTO MISSIONI VALUES (18, '10-AUG-2025', '01-MAY-2025', 'Sviluppare sistemi di riciclaggio delle risorse sulla Luna', 'Conclusa');
+INSERT INTO MISSIONI VALUES (19, '30-MAR-2024', '15-DEC-2023', 'Lanciare una missione per la raccolta di dati sismici lunari', 'Iniziata');
+INSERT INTO MISSIONI VALUES (20, '05-DEC-2025', '01-SEP-2025', 'Esplorare la possibilità di costruire città lunari autosufficienti', 'In corso');
+
+--Popolamento SENSORI
+--Stato_Operativo: I valori variano tra 'Operativo', 'In manutenzione', e 'Non operativo'.
+INSERT INTO SENSORI VALUES (1, '01-JAN-2020', '10-NOV-2024', 'Sensore di temperatura', 'Operativo', 12.3456, 98.7654, 10.5);
+INSERT INTO SENSORI VALUES (2, '15-FEB-2021', '05-NOV-2024', 'Sensore di pressione', 'Operativo', -23.4567, 87.6543, 20.0);
+INSERT INTO SENSORI VALUES (3, '20-MAR-2022', '08-NOV-2024', 'Sensore di radiazioni', 'In manutenzione', 34.5678, -76.5432, 30.0);
+INSERT INTO SENSORI VALUES (4, '10-APR-2020', '07-NOV-2024', 'Sensore di ossigeno', 'Operativo', 45.6789, 65.4321, 5.0);
+INSERT INTO SENSORI VALUES (5, '25-MAY-2019', '01-NOV-2024', 'Sensore di comunicazione', 'Non operativo', 56.7890, -54.3210, 15.5);
+INSERT INTO SENSORI VALUES (6, '01-JUN-2023', '02-NOV-2024', 'Sensore di velocità vento', 'Operativo', -67.8901, 43.2109, 50.0);
+INSERT INTO SENSORI VALUES (7, '15-JUL-2020', '12-NOV-2024', 'Sensore di umidità', 'Operativo', 78.9012, 32.1098, 12.0);
+INSERT INTO SENSORI VALUES (8, '30-AUG-2018', '09-NOV-2024', 'Sensore di prossimità', 'In manutenzione', -89.0123, -21.0987, 0.0);
+INSERT INTO SENSORI VALUES (9, '05-SEP-2019', '11-NOV-2024', 'Sensore di flusso idrico', 'Operativo', 12.3456, 98.7654, 22.0);
+INSERT INTO SENSORI VALUES (10, '10-OCT-2021', '15-NOV-2024', 'Sensore di navigazione', 'Operativo', 23.4567, -87.6543, 18.0);
+INSERT INTO SENSORI VALUES (11, '01-NOV-2020', '03-NOV-2024', 'Sensore geologico', 'Non operativo', -34.5678, 76.5432, 7.5);
+INSERT INTO SENSORI VALUES (12, '15-DEC-2019', '14-NOV-2024', 'Sensore di livello carburante', 'Operativo', 45.6789, 65.4321, 25.0);
+INSERT INTO SENSORI VALUES (13, '01-JAN-2022', '04-NOV-2024', 'Sensore di vibrazioni', 'Operativo', 56.7890, -54.3210, 33.0);
+INSERT INTO SENSORI VALUES (14, '20-FEB-2021', '06-NOV-2024', 'Sensore termico', 'In manutenzione', -67.8901, 43.2109, 42.5);
+INSERT INTO SENSORI VALUES (15, '10-MAR-2018', '13-NOV-2024', 'Sensore di pressione esterna', 'Operativo', 78.9012, 32.1098, 14.5);
+INSERT INTO SENSORI VALUES (16, '05-APR-2020', '16-NOV-2024', 'Sensore di contaminazione', 'Non operativo', -89.0123, -21.0987, 8.5);
+INSERT INTO SENSORI VALUES (17, '15-MAY-2022', '18-NOV-2024', 'Sensore magnetico', 'Operativo', 12.3456, 98.7654, 3.0);
+INSERT INTO SENSORI VALUES (18, '01-JUN-2021', '17-NOV-2024', 'Sensore di luminosità', 'Operativo', -23.4567, 87.6543, 9.0);
+INSERT INTO SENSORI VALUES (19, '20-JUL-2019', '20-NOV-2024', 'Sensore di gravità', 'Operativo', 34.5678, -76.5432, 19.5);
+INSERT INTO SENSORI VALUES (20, '30-AUG-2020', '19-NOV-2024', 'Sensore di salinità', 'In manutenzione', 45.6789, 65.4321, 4.0);
+
+--Popolamento MEMBRI EQUIPAGGIO
+INSERT INTO MEMBRI_EQUIPAGGIO VALUES (1, 'Luca', 'Rossi');
+INSERT INTO MEMBRI_EQUIPAGGIO VALUES (2, 'Maria', 'Bianchi');
+INSERT INTO MEMBRI_EQUIPAGGIO VALUES (3, 'Giovanni', 'Verdi');
+INSERT INTO MEMBRI_EQUIPAGGIO VALUES (4, 'Anna', 'Neri');
+INSERT INTO MEMBRI_EQUIPAGGIO VALUES (5, 'Marco', 'Ferrari');
+INSERT INTO MEMBRI_EQUIPAGGIO VALUES (6, 'Sara', 'Romano');
+INSERT INTO MEMBRI_EQUIPAGGIO VALUES (7, 'Davide', 'Gallo');
+INSERT INTO MEMBRI_EQUIPAGGIO VALUES (8, 'Chiara', 'Fontana');
+INSERT INTO MEMBRI_EQUIPAGGIO VALUES (9, 'Francesco', 'Barbieri');
+INSERT INTO MEMBRI_EQUIPAGGIO VALUES (10, 'Elena', 'De Luca');
+INSERT INTO MEMBRI_EQUIPAGGIO VALUES (11, 'Alessandro', 'Greco');
+INSERT INTO MEMBRI_EQUIPAGGIO VALUES (12, 'Federica', 'Santini');
+INSERT INTO MEMBRI_EQUIPAGGIO VALUES (13, 'Paolo', 'Moretti');
+INSERT INTO MEMBRI_EQUIPAGGIO VALUES (14, 'Giulia', 'Cattaneo');
+INSERT INTO MEMBRI_EQUIPAGGIO VALUES (15, 'Matteo', 'Serra');
+INSERT INTO MEMBRI_EQUIPAGGIO VALUES (16, 'Valeria', 'Ricci');
+INSERT INTO MEMBRI_EQUIPAGGIO VALUES (17, 'Simone', 'Leone');
+INSERT INTO MEMBRI_EQUIPAGGIO VALUES (18, 'Martina', 'Pellegrini');
+INSERT INTO MEMBRI_EQUIPAGGIO VALUES (19, 'Giorgio', 'Marini');
+INSERT INTO MEMBRI_EQUIPAGGIO VALUES (20, 'Silvia', 'Bianco');
+
+--Popolamento INTERVENTI
+INSERT INTO INTERVENTI VALUES (1, 'Riparazione di un modulo abitativo lunare');
+INSERT INTO INTERVENTI VALUES (2, 'Aggiornamento dei sistemi di comunicazione');
+INSERT INTO INTERVENTI VALUES (3, 'Manutenzione dei pannelli solari');
+INSERT INTO INTERVENTI VALUES (4, 'Ispezione delle attrezzature di trivellazione');
+INSERT INTO INTERVENTI VALUES (5, 'Sostituzione di componenti difettosi nel laboratorio scientifico');
+INSERT INTO INTERVENTI VALUES (6, 'Installazione di nuove apparecchiature per il monitoraggio climatico');
+INSERT INTO INTERVENTI VALUES (7, 'Ripristino di connessioni elettriche interrotte');
+INSERT INTO INTERVENTI VALUES (8, 'Verifica della funzionalità del rover lunare');
+INSERT INTO INTERVENTI VALUES (9, 'Ottimizzazione del sistema di riciclaggio dell’aria');
+INSERT INTO INTERVENTI VALUES (10, 'Riparazione del modulo di atterraggio');
+INSERT INTO INTERVENTI VALUES (11, 'Sostituzione di sensori guasti nei sistemi di rilevamento');
+INSERT INTO INTERVENTI VALUES (12, 'Aggiornamento del software di navigazione');
+INSERT INTO INTERVENTI VALUES (13, 'Ispezione e manutenzione della struttura pressurizzata');
+INSERT INTO INTERVENTI VALUES (14, 'Pulizia e calibrazione degli strumenti scientifici');
+INSERT INTO INTERVENTI VALUES (15, 'Rafforzamento della protezione contro le radiazioni');
+INSERT INTO INTERVENTI VALUES (16, 'Manutenzione della rete idrica interna');
+INSERT INTO INTERVENTI VALUES (17, 'Verifica e riparazione del sistema di approvvigionamento energetico');
+INSERT INTO INTERVENTI VALUES (18, 'Sostituzione dei cavi di trasmissione dati');
+INSERT INTO INTERVENTI VALUES (19, 'Ricalibrazione degli strumenti di osservazione astronomica');
+INSERT INTO INTERVENTI VALUES (20, 'Riparazione delle giunture del modulo di collegamento');
+
+--Popolamento ANOMALIE
+--Alcuni sensori (ad esempio, 5, 7, 11, 13, 14, 17, 18, 19, 20) non sono mai menzionati, per rappresentare l’assenza di anomalie.
+INSERT INTO ANOMALIE VALUES ('01-NOV-2024', '08:30', 1, 3, 'Fluttuazione di potenza nei pannelli solari');
+INSERT INTO ANOMALIE VALUES ('02-NOV-2024', '10:15', 2, 2, 'Interferenze nel sistema di comunicazione');
+INSERT INTO ANOMALIE VALUES ('03-NOV-2024', '14:45', 3, 1, 'Surriscaldamento del modulo abitativo');
+INSERT INTO ANOMALIE VALUES ('04-NOV-2024', '09:20', 4, 2, 'Malfunzionamento del sensore di ossigeno');
+INSERT INTO ANOMALIE VALUES ('05-NOV-2024', '11:30', 1, 3, 'Perdita di pressione nella camera di equilibrio');
+INSERT INTO ANOMALIE VALUES ('06-NOV-2024', '16:50', 6, 2, 'Errore nel sistema di navigazione del rover');
+INSERT INTO ANOMALIE VALUES ('07-NOV-2024', '07:05', 3, 1, 'Variazione anomala nel flusso idrico');
+INSERT INTO ANOMALIE VALUES ('08-NOV-2024', '12:15', 8, 3, 'Segnale irregolare nel radar di prossimità');
+INSERT INTO ANOMALIE VALUES ('09-NOV-2024', '18:40', 9, 2, 'Errore nei sistemi di controllo termico');
+INSERT INTO ANOMALIE VALUES ('10-NOV-2024', '20:30', 10, 1, 'Anomalia nei dati del sensore di radiazioni');
+INSERT INTO ANOMALIE VALUES ('11-NOV-2024', '06:45', 1, 3, 'Guasto del sistema di filtraggio dell’aria');
+INSERT INTO ANOMALIE VALUES ('12-NOV-2024', '13:25', 12, 2, 'Sovraccarico del generatore principale');
+INSERT INTO ANOMALIE VALUES ('13-NOV-2024', '15:00', 3, 1, 'Oscillazioni nei dati della stazione meteorologica');
+INSERT INTO ANOMALIE VALUES ('14-NOV-2024', '17:10', 4, 2, 'Errore nei segnali del sistema di monitoraggio lunare');
+INSERT INTO ANOMALIE VALUES ('15-NOV-2024', '22:50', 15, 3, 'Perdita di segnale dal satellite di supporto');
+INSERT INTO ANOMALIE VALUES ('16-NOV-2024', '09:30', 16, 1, 'Malfunzionamento dei dispositivi di perforazione');
+INSERT INTO ANOMALIE VALUES ('17-NOV-2024', '11:00', 9, 2, 'Interruzione nel flusso di dati geologici');
+INSERT INTO ANOMALIE VALUES ('18-NOV-2024', '13:45', 10, 3, 'Disallineamento dei pannelli solari');
+INSERT INTO ANOMALIE VALUES ('19-NOV-2024', '19:10', 10, 2, 'Guasto nei motori del sistema robotico');
+INSERT INTO ANOMALIE VALUES ('20-NOV-2024', '21:30', 4, 1, 'Calibrazione errata del sensore di pressione');
+
+--Popolamento Risoluzioni
+--Esito è impostato su 'TRUE' o 'FALSE' per indicare il risultato della risoluzione.
+--La DataEsecuzione indica la data in cui l'operazione è stata eseguita.
+--Intervento, AnomaliaData, AnomaliaOra, e AnomaliaSensore sono collegati all'intervento risolto, con dati coerenti.La distribuzione è fatta in modo che ci siano risoluzioni con esito positivo (TRUE) e negativo (FALSE), con interventi distribuiti tra diverse anomalie.
+INSERT INTO RISOLUZIONI VALUES ('TRUE', '17-NOV-2024', 1, '01-NOV-2024', '08:30', 1);
+INSERT INTO RISOLUZIONI VALUES ('FALSE', '18-NOV-2024', 2, '02-NOV-2024', '10:15', 2);
+INSERT INTO RISOLUZIONI VALUES ('TRUE', '19-NOV-2024', 3, '03-NOV-2024', '14:45', 3);
+INSERT INTO RISOLUZIONI VALUES ('TRUE', '20-NOV-2024', 4, '04-NOV-2024', '09:20', 4);
+INSERT INTO RISOLUZIONI VALUES ('FALSE', '21-NOV-2024', 5, '05-NOV-2024', '11:30', 1);
+INSERT INTO RISOLUZIONI VALUES ('TRUE', '22-NOV-2024', 6, '06-NOV-2024', '16:50', 6);
+INSERT INTO RISOLUZIONI VALUES ('TRUE', '23-NOV-2024', 7, '07-NOV-2024', '07:05', 3);
+INSERT INTO RISOLUZIONI VALUES ('FALSE', '24-NOV-2024', 8, '08-NOV-2024', '12:15', 8);
+INSERT INTO RISOLUZIONI VALUES ('TRUE', '25-NOV-2024', 9, '09-NOV-2024', '18:40', 9);
+INSERT INTO RISOLUZIONI VALUES ('TRUE', '26-NOV-2024', 10, '10-NOV-2024', '20:30', 10);
+INSERT INTO RISOLUZIONI VALUES ('FALSE', '27-NOV-2024', 11, '11-NOV-2024', '06:45', 1);
+INSERT INTO RISOLUZIONI VALUES ('TRUE', '28-NOV-2024', 12, '12-NOV-2024', '13:25', 12);
+INSERT INTO RISOLUZIONI VALUES ('TRUE', '29-NOV-2024', 13, '13-NOV-2024', '15:00', 3);
+INSERT INTO RISOLUZIONI VALUES ('FALSE', '30-NOV-2024', 14, '14-NOV-2024', '17:10', 4);
+INSERT INTO RISOLUZIONI VALUES ('TRUE', '01-DEC-2024', 15, '15-NOV-2024', '22:50', 15);
+INSERT INTO RISOLUZIONI VALUES ('TRUE', '02-DEC-2024', 16, '16-NOV-2024', '09:30', 16);
+INSERT INTO RISOLUZIONI VALUES ('FALSE', '03-DEC-2024', 17, '17-NOV-2024', '11:00', 9);
+INSERT INTO RISOLUZIONI VALUES ('TRUE', '04-DEC-2024', 18, '18-NOV-2024', '13:45', 10);
+INSERT INTO RISOLUZIONI VALUES ('FALSE', '05-DEC-2024', 19, '19-NOV-2024', '19:10', 10);
+INSERT INTO RISOLUZIONI VALUES ('TRUE', '06-DEC-2024', 20, '20-NOV-2024', '21:30', 4);
+
+--Popolamento RILEVAZIONI
+--Associato a ID sensori validi dalla tabella SENSORI. Alcuni sensori appaiono più di una volta (ad esempio, 1, 3, 6), mentre altri solo una volta.
+INSERT INTO RILEVAZIONI VALUES ('01-NOV-2024', '08:00', 1, 23.5);
+INSERT INTO RILEVAZIONI VALUES ('01-NOV-2024', '08:30', 2, 1013.2);
+INSERT INTO RILEVAZIONI VALUES ('01-NOV-2024', '09:00', 3, 0.45);
+INSERT INTO RILEVAZIONI VALUES ('01-NOV-2024', '09:15', 4, 19.8);
+INSERT INTO RILEVAZIONI VALUES ('01-NOV-2024', '10:00', 6, 5.6);
+INSERT INTO RILEVAZIONI VALUES ('01-NOV-2024', '10:15', 7, 60.2);
+INSERT INTO RILEVAZIONI VALUES ('01-NOV-2024', '11:00', 9, 3.2);
+INSERT INTO RILEVAZIONI VALUES ('01-NOV-2024', '11:30', 10, 12.7);
+INSERT INTO RILEVAZIONI VALUES ('01-NOV-2024', '12:00', 12, 0.78);
+INSERT INTO RILEVAZIONI VALUES ('01-NOV-2024', '12:30', 13, 2.3);
+INSERT INTO RILEVAZIONI VALUES ('01-NOV-2024', '13:00', 14, 55.9);
+INSERT INTO RILEVAZIONI VALUES ('01-NOV-2024', '13:30', 15, 1020.1);
+INSERT INTO RILEVAZIONI VALUES ('01-NOV-2024', '14:00', 16, 0.22);
+INSERT INTO RILEVAZIONI VALUES ('01-NOV-2024', '14:30', 17, 1.5);
+INSERT INTO RILEVAZIONI VALUES ('01-NOV-2024', '15:00', 18, 300.6);
+INSERT INTO RILEVAZIONI VALUES ('01-NOV-2024', '15:30', 19, 9.8);
+INSERT INTO RILEVAZIONI VALUES ('01-NOV-2024', '16:00', 20, 3.1);
+INSERT INTO RILEVAZIONI VALUES ('01-NOV-2024', '16:30', 3, 0.49);
+INSERT INTO RILEVAZIONI VALUES ('01-NOV-2024', '17:00', 6, 5.8);
+INSERT INTO RILEVAZIONI VALUES ('01-NOV-2024', '17:30', 1, 24.1);
+
+--Popolamento REPORT
+--Alcuni membri sono associati a più report, mentre altri non sono associati a nessun report, come richiesto.
+INSERT INTO REPORT VALUES (1, 
+'Il sensore di temperatura ha registrato una lettura inferiore ai livelli di sicurezza, suggerendo una possibile avaria al sistema di riscaldamento. Dopo un’attenta analisi, si è determinato che la causa principale è un guasto parziale al modulo di riscaldamento. La missione è stata temporaneamente sospesa per le necessarie riparazioni e per garantire la sicurezza dell’equipaggio.', 
+'01-NOV-2024', 
+'Iniziata', 
+1);
+
+INSERT INTO REPORT VALUES (2, 
+'Il sistema di navigazione del rover ha mostrato segnali di malfunzionamento. Durante l’analisi preliminare, si è rilevato un errore nel software di controllo che ha causato una deviazione dalla rotta programmata. Il team tecnico ha avviato un intervento per ripristinare la piena funzionalità del sistema. Nonostante questo, la missione continua a procedere, seppur con lievi ritardi.', 
+'02-NOV-2024', 
+'In corso',
+2);
+
+INSERT INTO REPORT VALUES (3, 
+'Un malfunzionamento è stato riscontrato nel sensore di gravità. I dati raccolti hanno mostrato variazioni inaspettate, indicando una possibile interferenza nei segnali. Dopo un controllo iniziale, si è concluso che il sensore necessiti di una calibrazione approfondita. La missione non è stata influenzata gravemente, ma è stata avviata una revisione del sistema di monitoraggio.', 
+'03-NOV-2024', 
+'In corso', 
+3);
+
+INSERT INTO REPORT VALUES (4, 
+'Sono stati riscontrati malfunzionamenti nei sensori di vibrazione a causa di un errore nel loro allineamento. Le vibrazioni anomale potrebbero compromettere l’integrità del rover durante il suo movimento. Sono stati avviati interventi per ricalibrare i sensori e minimizzare i rischi per la missione. La missione prosegue, ma sono stati presi provvedimenti per monitorare la situazione più da vicino.', 
+'04-NOV-2024', 
+'Conclusa', 
+4);
+
+INSERT INTO REPORT VALUES (5, 
+'Il sensore di ossigeno ha registrato una lettura al di sotto della soglia di sicurezza, suggerendo un malfunzionamento nel sistema di filtraggio. Dopo aver eseguito i primi test, si è determinato che il sensore ha bisogno di una manutenzione urgente. Il sistema di allarme ha segnalato il problema, ma la missione ha subito un rallentamento dovuto all’emergenza. Tuttavia, il rischio è stato contenuto grazie all’intervento tempestivo del team tecnico.', 
+'05-NOV-2024', 
+'In corso', 
+5);
+
+INSERT INTO REPORT VALUES (6, 
+'Durante un controllo di routine, il sensore di pressione ha mostrato dei valori anomali che indicano un possibile guasto al sistema di controllo della pressione. I tecnici hanno isolato il problema e iniziato a sostituire i componenti difettosi. La missione ha subito una breve interruzione, ma le operazioni sono riprese senza ulteriori complicazioni.', 
+'06-NOV-2024', 
+'Conclusa', 
+6);
+
+INSERT INTO REPORT VALUES (7, 
+'Il sensore di luminosità ha mostrato un comportamento strano, con letture che oscillano tra valori estremamente alti e bassi, suggerendo una possibile interruzione nei circuiti di alimentazione. È stato necessario un intervento tecnico immediato per isolare il guasto. Dopo aver ripristinato il sistema, il sensore ha ripreso a funzionare correttamente, ma la missione ha subito lievi ritardi.', 
+'07-NOV-2024', 
+'In attesa di revisione', 
+7);
+
+INSERT INTO REPORT VALUES (8, 
+'Il sistema di comunicazione del rover ha presentato un errore di trasmissione. I dati vitali non sono stati inviati correttamente, creando un’interruzione temporanea nel flusso di informazioni con il centro di comando. È stato attivato un piano di emergenza per garantire la continuità della comunicazione. La missione è proseguita, ma sono stati necessari interventi aggiuntivi.', 
+'08-NOV-2024', 
+'Conclusa', 
+8);
+
+INSERT INTO REPORT VALUES (9, 
+'I sensori di gravità hanno registrato anomali valori di accelerazione durante la fase di discesa. Questi dati potrebbero indicare problemi strutturali al rover. Dopo aver analizzato i dati, i tecnici hanno rilevato la necessità di una riparazione del sistema di monitoraggio. Sebbene la missione abbia subito un’interruzione, il problema è stato risolto tempestivamente senza compromettere l’obiettivo finale.', 
+'09-NOV-2024', 
+'In corso', 
+9);
+
+INSERT INTO REPORT VALUES (10, 
+'Il sensore di livello carburante ha segnalato una perdita nel serbatoio principale. Dopo un rapido intervento, è stato confermato che la perdita era limitata a una piccola quantità di carburante, ma il rischio di una perdita maggiore è stato contenuto. La missione ha continuato con il piano di emergenza attivato.', 
+'10-NOV-2024', 
+'In attesa di revisione', 
+10);
+
+INSERT INTO REPORT VALUES (11, 
+'Il sistema di supporto vitale ha mostrato una lettura anomala dei livelli di CO2. La causa è stata identificata in un sensore difettoso, che è stato sostituito senza interrompere la missione. I membri dell’equipaggio sono stati informati della situazione e sono stati adottati protocolli di sicurezza. La missione ha proseguito come da piano, ma sono stati attuati controlli aggiuntivi.', 
+'11-NOV-2024', 
+'In corso',
+11);
+
+INSERT INTO REPORT VALUES (12, 
+'Le rilevazioni dei sensori di temperatura hanno mostrato una graduale crescita oltre i limiti tollerabili per i componenti elettronici del rover. Un’indagine ha determinato che il sistema di raffreddamento non funzionava correttamente. Il malfunzionamento è stato isolato, ma la missione è stata ritardata fino al ripristino completo del sistema di raffreddamento.', 
+'12-NOV-2024', 
+'In attesa di revisione',
+12);
+
+INSERT INTO REPORT VALUES (13, 
+'Il sensore di salinità ha registrato una lettura errata durante il test delle superfici lunari. È stata eseguita una calibrazione, ma i dati continuano a non corrispondere alle aspettative. È stato deciso di effettuare ulteriori test per garantire che il sensore fornisca letture accurate. La missione è stata continuata, ma con limitazioni nelle operazioni scientifiche.', 
+'13-NOV-2024', 
+'Conclusa',
+13);
+
+INSERT INTO REPORT VALUES (14, 
+'Le rilevazioni dei sensori atmosferici hanno mostrato una variazione imprevista nei livelli di pressione. L’analisi ha indicato che il problema era causato da un malfunzionamento nel sensore di pressione. È stato richiesto un intervento per la calibrazione. La missione è stata temporaneamente sospesa per garantire il corretto funzionamento del sistema di monitoraggio ambientale.', 
+'14-NOV-2024', 
+'In corso',
+14);
+
+INSERT INTO REPORT VALUES (15, 
+'Il rover ha subito un rallentamento nei movimenti a causa di un malfunzionamento nei sensori di velocità. È stata avviata una diagnostica, ma il problema sembra essere legato al software di gestione. Il team ha iniziato a ripristinare il sistema senza compromettere l’obiettivo della missione. Nonostante l’incidente, la missione prosegue.', 
+'15-NOV-2024', 
+'In attesa di revisione',
+15);
+
+INSERT INTO REPORT VALUES (16, 
+'Il sensore di vibrazioni ha rilevato livelli superiori al normale durante il test dei materiali lunari. Dopo aver eseguito una diagnosi, è stato confermato che il sensore ha subito un danno parziale. È stata avviata una sostituzione del componente danneggiato. La missione è proseguita, ma la raccolta di dati è stata ridotta temporaneamente.', 
+'16-NOV-2024', 
+'In corso',
+16);
+
+INSERT INTO REPORT VALUES (17, 
+'Il sensore di ossigeno ha mostrato una perdita di efficienza durante la fase di utilizzo. Il sistema di allarme ha attivato una segnalazione tempestiva. Dopo una revisione, è stato identificato un malfunzionamento nel flusso dell’ossigeno, che è stato corretto. La missione ha continuato senza altre problematiche.', 
+'17-NOV-2024', 
+'Conclusa',
+17);
+
+INSERT INTO REPORT VALUES (18, 
+'Il sensore di pressione ha rilevato una diminuzione significativa dei livelli di pressione atmosferica all’interno della base. È stato accertato che il sensore fosse difettoso e non accurato. Sono stati effettuati test sui sistemi di tenuta e la missione ha proseguito senza interruzioni.', 
+'18-NOV-2024', 
+'In corso',
+18);
+
+INSERT INTO REPORT VALUES (19, 
+'Sono stati osservati valori anomali provenienti dai sensori di umidità durante la raccolta dei campioni. Un’indagine ha rivelato che un errore nel software di gestione ha influenzato i dati. È stato avviato un aggiornamento del software per risolvere il problema, ma la missione è proseguita, anche se i dati non erano completi.', 
+'19-NOV-2024', 
+'In attesa di revisione',
+19);
+
+INSERT INTO REPORT VALUES (20, 
+'I sensori di temperatura e di pressione hanno mostrato valori errati, indicativi di un guasto nei dispositivi di misura. L’intervento è stato effettuato senza ritardi, ma la missione ha subito un lieve rallentamento a causa della necessità di eseguire un controllo approfondito. Tuttavia, la missione è stata conclusa con successo nonostante l’incidente.', 
+'20-NOV-2024', 
+'Conclusa',
+20);
+
+--Popolamento Robot
+INSERT INTO ROBOT VALUES (1, 'Rover Lunare');
+INSERT INTO ROBOT VALUES (2, 'Drone di Sorveglianza');
+INSERT INTO ROBOT VALUES (3, 'Braccio Robotico per Riparazioni');
+INSERT INTO ROBOT VALUES (4, 'Rover di Esplorazione');
+INSERT INTO ROBOT VALUES (5, 'Droni di Rilevamento Atmosferico');
+INSERT INTO ROBOT VALUES (6, 'Braccio Robotico per Rifornimenti');
+INSERT INTO ROBOT VALUES (7, 'Rover per Rilevazioni Geologiche');
+INSERT INTO ROBOT VALUES (8, 'Robot per Costruzione Base');
+INSERT INTO ROBOT VALUES (9, 'Rover per Analisi delle Superfici Lunari');
+INSERT INTO ROBOT VALUES (10, 'Droni per Monitoraggio Ambientale');
+INSERT INTO ROBOT VALUES (11, 'Rover per Scansioni Sismiche');
+INSERT INTO ROBOT VALUES (12, 'Robot per Rilievi Topografici');
+INSERT INTO ROBOT VALUES (13, 'Rover per Test di Resistenza dei Materiali');
+INSERT INTO ROBOT VALUES (14, 'Robot per Estrazione di Campioni Lunari');
+INSERT INTO ROBOT VALUES (15, 'Drone per Esplorazione di Crateri');
+INSERT INTO ROBOT VALUES (16, 'Braccio Robotico per Assemblaggio Materiali');
+INSERT INTO ROBOT VALUES (17, 'Rover per Misurazioni della Gravità');
+INSERT INTO ROBOT VALUES (18, 'Rover per Monitoraggio Solare');
+INSERT INTO ROBOT VALUES (19, 'Drone per Comunicazione e Relay');
+INSERT INTO ROBOT VALUES (20, 'Robot per Installazione di Sistemi di Energia Solare');
+
+--Popolamento RISORSE_1
+--In questi statement, ogni missione è associata a uno o più robot, seguendo una distribuzione casuale tra le missioni e i robot disponibili.
+INSERT INTO RISORSE_1 VALUES (1, 1);
+INSERT INTO RISORSE_1 VALUES (1, 2);
+INSERT INTO RISORSE_1 VALUES (1, 3);
+INSERT INTO RISORSE_1 VALUES (2, 4);
+INSERT INTO RISORSE_1 VALUES (2, 5);
+INSERT INTO RISORSE_1 VALUES (3, 6);
+INSERT INTO RISORSE_1 VALUES (3, 7);
+INSERT INTO RISORSE_1 VALUES (4, 8);
+INSERT INTO RISORSE_1 VALUES (4, 9);
+INSERT INTO RISORSE_1 VALUES (5, 10);
+INSERT INTO RISORSE_1 VALUES (5, 11);
+INSERT INTO RISORSE_1 VALUES (6, 12);
+INSERT INTO RISORSE_1 VALUES (6, 13);
+INSERT INTO RISORSE_1 VALUES (7, 14);
+INSERT INTO RISORSE_1 VALUES (7, 15);
+INSERT INTO RISORSE_1 VALUES (8, 16);
+INSERT INTO RISORSE_1 VALUES (9, 17);
+INSERT INTO RISORSE_1 VALUES (9, 18);
+INSERT INTO RISORSE_1 VALUES (10, 19);
+
+--Popolamento Risorse_2
+--In questi statement, ogni missione è associata a uno o più sensori. La distribuzione tra missioni e sensori è fatta in modo che alcuni sensori vengano utilizzati in più missioni, mentre altri vengano utilizzati solo in una missione. 
+INSERT INTO RISORSE_2 VALUES (1, 1);
+INSERT INTO RISORSE_2 VALUES (1, 2);
+INSERT INTO RISORSE_2 VALUES (1, 3);
+INSERT INTO RISORSE_2 VALUES (2, 4);
+INSERT INTO RISORSE_2 VALUES (2, 5);
+INSERT INTO RISORSE_2 VALUES (3, 6);
+INSERT INTO RISORSE_2 VALUES (3, 7);
+INSERT INTO RISORSE_2 VALUES (4, 8);
+INSERT INTO RISORSE_2 VALUES (4, 9);
+INSERT INTO RISORSE_2 VALUES (5, 10);
+INSERT INTO RISORSE_2 VALUES (5, 11);
+INSERT INTO RISORSE_2 VALUES (6, 12);
+INSERT INTO RISORSE_2 VALUES (6, 13);
+INSERT INTO RISORSE_2 VALUES (7, 14);
+INSERT INTO RISORSE_2 VALUES (7, 15);
+INSERT INTO RISORSE_2 VALUES (8, 16);
+INSERT INTO RISORSE_2 VALUES (9, 17);
+INSERT INTO RISORSE_2 VALUES (9, 18);
+INSERT INTO RISORSE_2 VALUES (10, 19);
+
+--Popolamento Risorse_3
+--In questi statement, ogni missione è associata a uno o più membri, con un ruolo specifico per ciascun membro della missione. Alcuni membri compaiono in più missioni, mentre altri sono assegnati a una sola missione. 
+INSERT INTO RISORSE_3 VALUES (1, 1, 'Comandante');
+INSERT INTO RISORSE_3 VALUES (1, 2, 'Specialista Tecnico');
+INSERT INTO RISORSE_3 VALUES (1, 3, 'Ingegnere delle Comunicazioni');
+INSERT INTO RISORSE_3 VALUES (2, 4, 'Pilota');
+INSERT INTO RISORSE_3 VALUES (2, 5, 'Tecnico di Supporto');
+INSERT INTO RISORSE_3 VALUES (3, 6, 'Comandante');
+INSERT INTO RISORSE_3 VALUES (3, 7, 'Specialista in Rilevamento');
+INSERT INTO RISORSE_3 VALUES (4, 8, 'Pilota');
+INSERT INTO RISORSE_3 VALUES (4, 9, 'Tecnico di Riparazioni');
+INSERT INTO RISORSE_3 VALUES (5, 10, 'Comandante');
+INSERT INTO RISORSE_3 VALUES (5, 11, 'Ingegnere delle Comunicazioni');
+INSERT INTO RISORSE_3 VALUES (6, 12, 'Specialista in Geologia');
+INSERT INTO RISORSE_3 VALUES (6, 13, 'Tecnico di Supporto');
+INSERT INTO RISORSE_3 VALUES (7, 14, 'Comandante');
+INSERT INTO RISORSE_3 VALUES (7, 15, 'Specialista in Energia Solare');
+INSERT INTO RISORSE_3 VALUES (8, 16, 'Tecnico di Riparazioni');
+INSERT INTO RISORSE_3 VALUES (9, 17, 'Pilota');
+INSERT INTO RISORSE_3 VALUES (9, 18, 'Ingegnere delle Comunicazioni');
+INSERT INTO RISORSE_3 VALUES (10, 19, 'Specialista in Robotica');
+
+--Popolamento Manutenzioni
+--In questi statement, ogni manutenzione è associata a una data, un membro, una missione e un sensore specifico. La distribuzione tra membri, missioni e sensori è stata fatta in modo da garantire che alcune missioni e sensori abbiano più interventi di manutenzione rispetto ad altri.
+INSERT INTO MANUTENZIONI VALUES ('17-NOV-2024', 1, 1);
+INSERT INTO MANUTENZIONI VALUES ('18-NOV-2024', 2, 2);
+INSERT INTO MANUTENZIONI VALUES ('18-NOV-2024', 3, 3);
+INSERT INTO MANUTENZIONI VALUES ('19-NOV-2024', 4, 4);
+INSERT INTO MANUTENZIONI VALUES ('20-NOV-2024', 5, 5);
+INSERT INTO MANUTENZIONI VALUES ('21-NOV-2024', 6, 6);
+INSERT INTO MANUTENZIONI VALUES ('22-NOV-2024', 7, 7);
+INSERT INTO MANUTENZIONI VALUES ('22-NOV-2024', 8, 8);
+INSERT INTO MANUTENZIONI VALUES ('23-NOV-2024', 9, 9);
+INSERT INTO MANUTENZIONI VALUES ('24-NOV-2024', 10, 10);
+INSERT INTO MANUTENZIONI VALUES ('25-NOV-2024', 11, 11);
+INSERT INTO MANUTENZIONI VALUES ('26-NOV-2024', 12, 12);
+INSERT INTO MANUTENZIONI VALUES ('27-NOV-2024', 13, 13);
+INSERT INTO MANUTENZIONI VALUES ('28-NOV-2024', 14, 14);
+INSERT INTO MANUTENZIONI VALUES ('29-NOV-2024', 15, 15);
+INSERT INTO MANUTENZIONI VALUES ('30-NOV-2024', 16, 16);
+INSERT INTO MANUTENZIONI VALUES ('01-DEC-2024', 17, 17);
+INSERT INTO MANUTENZIONI VALUES ('02-DEC-2024', 18, 18);
+INSERT INTO MANUTENZIONI VALUES ('03-DEC-2024', 19, 19);
+
+--Popolamento Riparazioni
+--In questi statement, ogni riparazione è associata a una data, un membro, una missione e un sensore specifico. La distribuzione tra missioni, membri e sensori è stata organizzata in modo che alcuni membri si occupino di riparazioni più frequentemente.
+INSERT INTO RIPARAZIONI VALUES ('17-NOV-2024', 1, 1);
+INSERT INTO RIPARAZIONI VALUES ('18-NOV-2024', 2, 2);
+INSERT INTO RIPARAZIONI VALUES ('19-NOV-2024', 3, 3);
+INSERT INTO RIPARAZIONI VALUES ('20-NOV-2024', 4, 4);
+INSERT INTO RIPARAZIONI VALUES ('21-NOV-2024', 5, 5);
+INSERT INTO RIPARAZIONI VALUES ('22-NOV-2024', 6, 6);
+INSERT INTO RIPARAZIONI VALUES ('23-NOV-2024', 7, 7);
+INSERT INTO RIPARAZIONI VALUES ('24-NOV-2024', 8, 8);
+INSERT INTO RIPARAZIONI VALUES ('25-NOV-2024', 9, 9);
+INSERT INTO RIPARAZIONI VALUES ('26-NOV-2024', 10, 10);
+INSERT INTO RIPARAZIONI VALUES ('27-NOV-2024', 11, 11);
+INSERT INTO RIPARAZIONI VALUES ('28-NOV-2024', 12, 12);
+INSERT INTO RIPARAZIONI VALUES ('29-NOV-2024', 13, 13);
+INSERT INTO RIPARAZIONI VALUES ('30-NOV-2024', 14, 14);
+INSERT INTO RIPARAZIONI VALUES ('01-DEC-2024', 15, 15);
+INSERT INTO RIPARAZIONI VALUES ('02-DEC-2024', 16, 16);
+INSERT INTO RIPARAZIONI VALUES ('03-DEC-2024', 17, 17);
+INSERT INTO RIPARAZIONI VALUES ('04-DEC-2024', 18, 18);
+INSERT INTO RIPARAZIONI VALUES ('05-DEC-2024', 19, 19);
+
+--Popolamento Coinvolgimenti
+--In questi statement, ogni membro è associato a una missione e a un intervento specifico. Alcuni membri sono coinvolti in più interventi, mentre altri sono assegnati a uno solo.
+INSERT INTO COINVOLGIMENTI VALUES (1, 1);
+INSERT INTO COINVOLGIMENTI VALUES (2, 2);
+INSERT INTO COINVOLGIMENTI VALUES (3, 3);
+INSERT INTO COINVOLGIMENTI VALUES (4, 4);
+INSERT INTO COINVOLGIMENTI VALUES (5, 5);
+INSERT INTO COINVOLGIMENTI VALUES (6, 6);
+INSERT INTO COINVOLGIMENTI VALUES (7, 7);
+INSERT INTO COINVOLGIMENTI VALUES (8, 8);
+INSERT INTO COINVOLGIMENTI VALUES (9, 9);
+INSERT INTO COINVOLGIMENTI VALUES (10, 10);
+INSERT INTO COINVOLGIMENTI VALUES (11, 11);
+INSERT INTO COINVOLGIMENTI VALUES (12, 12);
+INSERT INTO COINVOLGIMENTI VALUES (13, 13);
+INSERT INTO COINVOLGIMENTI VALUES (14, 14);
+INSERT INTO COINVOLGIMENTI VALUES (15, 15);
+INSERT INTO COINVOLGIMENTI VALUES (16, 16);
+INSERT INTO COINVOLGIMENTI VALUES (17, 17);
+INSERT INTO COINVOLGIMENTI VALUES (18, 18);
+INSERT INTO COINVOLGIMENTI VALUES (19, 19);

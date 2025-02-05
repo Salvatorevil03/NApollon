@@ -1,0 +1,9 @@
+-- Data di report
+-- Stato attuale delle missioni
+-- Tipologia, Stato operativo e Tipologia e stato operativo di sensore
+
+CREATE INDEX Data_Report ON REPORT(DATA);
+CREATE INDEX Stato_Missioni ON MISSIONI(STATO_ATTUALE);
+CREATE INDEX Tipologia_Sensori ON SENSORI(TIPOLOGIA);
+CREATE INDEX Stato_Sensori ON SENSORI(STATO_OPERATIVO);
+CREATE INDEX Tipologia_Stato_Sensori ON SENSORI(TIPOLOGIA, STATO_OPERATIVO);

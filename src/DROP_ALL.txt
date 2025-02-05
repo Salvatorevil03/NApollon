@@ -1,0 +1,37 @@
+BEGIN
+   FOR rec IN (SELECT table_name FROM user_tables) LOOP
+      EXECUTE IMMEDIATE 'DROP TABLE ' || rec.table_name || ' CASCADE CONSTRAINTS';
+   END LOOP;
+END;
+/
+
+
+CREATE OR REPLACE PROCEDURE svuota_tabelle AS
+BEGIN
+   FOR t IN (SELECT table_name FROM user_tables) LOOP
+      BEGIN
+         EXECUTE IMMEDIATE 'TRUNCATE TABLE ' || t.table_name;
+      EXCEPTION
+         WHEN OTHERS THEN
+            DBMS_OUTPUT.PUT_LINE('Errore su tabella: ' || t.table_name || ' - ' || SQLERRM);
+      END;
+   END LOOP;
+   DBMS_OUTPUT.PUT_LINE('Tutte le tabelle sono state svuotate.');
+END;
+BEGIN
+svuota_tabelle;
+END;
+
+CREATE OR REPLACE PROCEDURE elimina_tutti_i_trigger AS
+BEGIN
+   FOR trg IN (SELECT trigger_name FROM user_triggers) LOOP
+      BEGIN
+         EXECUTE IMMEDIATE 'DROP TRIGGER ' || trg.trigger_name;
+         DBMS_OUTPUT.PUT_LINE('Trigger eliminato: ' || trg.trigger_name);
+      EXCEPTION
+         WHEN OTHERS THEN
+            DBMS_OUTPUT.PUT_LINE('Errore su trigger: ' || trg.trigger_name || ' - ' || SQLERRM);
+      END;
+   END LOOP;
+   DBMS_OUTPUT.PUT_LINE('Tutti i trigger sono stati eliminati.');
+END;

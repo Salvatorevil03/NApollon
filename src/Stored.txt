@@ -1,0 +1,132 @@
+-- 1 Creazione di una nuova missione
+CREATE OR REPLACE PROCEDURE Nuova_Missione(
+    codiceM MISSIONI.CODICE%TYPE,
+    datafineM MISSIONI.DATA_FINE%TYPE,
+    datainizioM MISSIONI.DATA_INIZIO%TYPE,
+    obiettivoM MISSIONI.OBIETTIVO%TYPE,
+    statoattuale MISSIONI.STATO_ATTUALE%TYPE
+)
+AS
+BEGIN
+    INSERT INTO MISSIONI VALUES (codiceM, datafineM, datainizioM, obiettivoM, statoattuale);
+END;
+BEGIN
+    Nuova_Missione(69, TO_DATE('18-OCT-2024', 'DD-MON-YYYY'), TO_DATE('05-MAY-2023', 'DD-MON-YYYY'), 'Estabilire una base lunare permanente', 'In corso');
+END;
+-- 2 Aggiornamento dello stato della missione
+CREATE OR REPLACE PROCEDURE Aggiorna_Stato_Missione(
+    codiceM MISSIONI.CODICE%TYPE,
+    nuovostato MISSIONI.STATO_ATTUALE%TYPE
+)
+AS
+BEGIN
+    UPDATE MISSIONI
+    SET STATO_ATTUALE = nuovostato
+    WHERE CODICE = codiceM;
+END;
+BEGIN
+    Aggiorna_Stato_Missione(69,'finito');
+END;
+-- 3 Elenco delle missioni attive (stato = In corso/Iniziata)
+CREATE OR REPLACE PROCEDURE Stampa_Missioni_Attive
+AS
+    CURSOR missioni_cur IS
+        SELECT CODICE, STATO_ATTUALE, DATA_FINE, DATA_INIZIO, OBIETTIVO
+        FROM MISSIONI
+        WHERE STATO_ATTUALE = 'In corso' OR STATO_ATTUALE = 'Iniziata';
+
+    v_cod MISSIONI.CODICE%TYPE;
+    datafineM MISSIONI.DATA_FINE%TYPE;
+    datainizioM MISSIONI.DATA_INIZIO%TYPE;
+    obiettivoM MISSIONI.OBIETTIVO%TYPE;
+    v_stato MISSIONI.STATO_ATTUALE%TYPE;
+BEGIN
+    OPEN missioni_cur;
+    LOOP
+        FETCH missioni_cur INTO v_cod, v_stato, datafineM, datainizioM, obiettivoM;
+        EXIT WHEN missioni_cur%NOTFOUND;
+
+        DBMS_OUTPUT.PUT_LINE('Codice: ' || v_cod || ', Stato: ' || v_stato || ', Inizio: ' || datainizioM || ', Fine: ' || datafineM || ', Obiettivo: ' || obiettivoM);
+    END LOOP;
+    CLOSE missioni_cur;
+END;
+BEGIN
+    Stampa_Missioni_Attive;
+END;
+-- 4 Lista anomalie la cui risoluzione è fallita
+CREATE OR REPLACE PROCEDURE Risoluzioni_Fallite
+AS
+    CURSOR anomalie_cur IS
+        SELECT A.Sensore, A.Causa, A.Livello_Priorita, R.DataEsecuzione
+        FROM RISOLUZIONI R JOIN ANOMALIE A ON R.AnomaliaData = A.Data AND R.AnomaliaOra = A.Ora AND R.AnomaliaSensore = A.Sensore
+        WHERE R.Esito = 'FALSE';
+
+    sensore ANOMALIE.SENSORE%TYPE;
+    causa ANOMALIE.CAUSA%TYPE;
+    LP ANOMALIE.LIVELLO_PRIORITA%TYPE;
+    dataE RISOLUZIONI.DATAESECUZIONE%TYPE;
+BEGIN
+    OPEN anomalie_cur;
+    LOOP
+        FETCH anomalie_cur INTO sensore, causa, LP, dataE;
+        EXIT WHEN anomalie_cur%NOTFOUND;
+
+        DBMS_OUTPUT.PUT_LINE('Sensore: ' || sensore || ', Causa_Anomalia: ' || causa || ', Livello Priorità: ' || LP || ', Data esecuzione fallita: ' || dataE);
+    END LOOP;
+    CLOSE anomalie_cur;
+END;
+BEGIN
+    Risoluzioni_Fallite;
+END;
+-- 5 Inserimento report
+CREATE OR REPLACE PROCEDURE Nuovo_Report(
+    codiceR REPORT.CODICE%TYPE,
+    testo REPORT.TESTO%TYPE,
+    dataR REPORT.DATA%TYPE,
+    stato REPORT.STATO_COMUNICATO%TYPE,
+    missione REPORT.MISSIONE%TYPE
+)
+AS
+    v_count NUMBER;
+BEGIN
+    SELECT COUNT(*)
+    INTO v_count
+    FROM REPORT
+    WHERE CODICE = codiceR;
+
+    IF v_count > 0 THEN
+        RAISE_APPLICATION_ERROR(-20001, 'Codice già esistente nel database!');
+    END IF;
+
+    INSERT INTO REPORT VALUES (codiceR, testo, dataR, stato, missione);
+END;
+BEGIN
+    Nuovo_Report(69,'Il sistema di navigazione del rover ha mostrato segnali di malfunzionamento. Durante l’analisi preliminare, si è rilevato un errore nel software di controllo che ha causato una deviazione dalla rotta programmata. Il team tecnico ha avviato un intervento per ripristinare la piena funzionalità del sistema. Nonostante questo, la missione continua a procedere, seppur con lievi ritardi.',TO_DATE('02-NOV-2024', 'DD-MON-YYYY'),'In corso',2);
+END;
+-- 6 Lista tutti report per una data missione
+CREATE OR REPLACE PROCEDURE Lista_report_per_missione(
+    codiceM REPORT.MISSIONE%TYPE
+)
+AS
+    CURSOR report_cur IS
+        SELECT R.CODICE, R.TESTO, R.DATA, R.STATO_COMUNICATO
+        FROM REPORT R
+        WHERE R.MISSIONE = codiceM;
+
+    codiceR REPORT.CODICE%TYPE;
+    testoR REPORT.TESTO%TYPE;
+    dataR REPORT.DATA%TYPE;
+    statoR REPORT.STATO_COMUNICATO%TYPE;
+BEGIN
+    OPEN report_cur;
+    LOOP
+        FETCH report_cur INTO codiceR, testoR, dataR, statoR;
+        EXIT WHEN report_cur%NOTFOUND;
+
+        DBMS_OUTPUT.PUT_LINE('Codice Report: ' || codiceR || ', Testo: ' || testoR || ', Data: ' || dataR || ', Stato: ' || statoR);
+    END LOOP;
+    CLOSE report_cur;
+END;
+BEGIN
+    Lista_report_per_missione(2);
+END;

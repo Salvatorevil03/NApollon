@@ -1,0 +1,33 @@
+-- Unisce MISSIONI RISORSE_3 SENSORI
+CREATE VIEW Sensori_per_missione AS
+SELECT 
+    M.CODICE AS Codice_Missione,
+    S.ID AS ID_Sensore,
+    S.STATO_OPERATIVO AS Stato_Sensore,
+    S.DATA_ULTIMO_CONTROLLO AS Ultimo_controllo
+FROM (MISSIONI M JOIN RISORSE_2 R2 ON M.CODICE = R2.MISSIONE) JOIN SENSORI S ON R2.SENSORE = S.ID;
+
+SELECT *
+FROM Sensori_per_missione;
+
+-- Unisce Anomalia Risoluzione
+CREATE VIEW Esiti_per_Anomalie AS
+SELECT 
+    A.SENSORE AS ID_Sensore,
+    A.CAUSA AS Causa_Anomalia,
+    R.ESITO AS Esito_Riparazione
+FROM RISOLUZIONI R JOIN ANOMALIE A ON R.ANOMALIADATA = A.DATA AND R.ANOMALIAORA = A.ORA AND R.ANOMALIASENSORE = A.SENSORE;
+
+SELECT *
+FROM Esiti_per_Anomalie;
+
+-- Unisce le viste Sensori_per_missione Esiti_per_Anomalie
+CREATE VIEW Esiti_per_Anomalie_su_Sensori AS
+SELECT 
+    S.Codice_Missione AS Codice_Missione,
+    S.ID_Sensore AS ID_Sensore,
+    E.Esito_Riparazione AS Esito_Riparazione
+FROM Sensori_per_missione S JOIN Esiti_per_Anomalie E ON S.ID_Sensore=E.ID_Sensore;
+
+SELECT *
+FROM Esiti_per_Anomalie_su_Sensori;

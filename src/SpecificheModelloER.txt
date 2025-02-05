@@ -1,0 +1,22 @@
+RILEVAZIONE: è stata utilizzata una chiave esterna che lega l'entità RILEVAZIONE all'entità SENSORE mediante la relazione ESECUZIONE sugli attributi Data e Ora.
+Sono sufficienti gli attributi Data e Ora poiché, insieme all'ID del sensore, riescono univocamente ad identificare una Rilevazione eseguita da un Sensore supposto che un Sensore non possa eseguire multiple rilevazioni in uno stesso istante di tempo identificato da (Data,Ora) 
+
+ANOMALIA: è stata utilizzata una chiave esterna che collega l'entità ANOMALIA all'entità SENSORE mediante la relazione PROBLEMATICA sugli attributi Data e Ora.
+L'utilizzo di questa chiave esterna è utile per rendere più restrittivo il legame che c'è tra ANOMALIA e SENSORE posto che un Sensore non possa entrare in molteplici stati di anomalia in uno stesso istante di tempo identificato da (Data,Ora)
+
+MANUTENZIONE: è necessario un attributo all'interno della relazione MANUTENZIONE e che questo faccia parte dell'identificatore che lega le entità MEMBRO EQUIPAGGIO e SENSORE in modo tale che un MEMBRO EQUIPAGGIO possa eseguire molteplici manutenzioni su uno stesso SENSORE utilizzando come discriminante la Data in cui il MEMBRO EQUIPAGGIO esegue la MANUTENZIONE
+
+RIPARAZIONE: è necessario un attributo all'interno della relazione RIPARAZIONE e che questo faccia parte dell'identificatore che lega le entità MEMBRO EQUIPAGGIO e SENSORE in modo tale che un MEMBRO EQUIPAGGIO possa eseguire molteplici riparazioni su uno stesso SENSORE utilizzando come discriminante la Data in cui il MEMBRO EQUIPAGGIO esegue la RIPARAZIONE
+
+REPORT: l'entità REPORT è legata esclusivamente all'entità MISSIONE mediante la relazione RELATIVO per evitare LOOP. Contestualmente a ciò non è necessario mantenere le informazioni sul MEMBRO EQUIPAGGIO che ha stilato tale REPORT
+
+MISSIONE->REPORT: non è stata scelta una cardinalità 0-N dal lato dell'entità MISSIONE ma 1-N poiché supposto che all'atto di Inizio di una MISSIONE venga generato un REPORT che sottolinei che la MISSIONE sia effettivamente iniziata; conseguentemente Stato Comunicato in REPORT sarà identificato con 'Iniziata'.
+
+SENSORE->RILEVAZIONI: è stata scelta una cardinalità minima pari a 0 dal lato dell'entità SENSORE poiché non è necessario che un SENSORE all'atto della sua installazione (identificata dall'attributo 'Data Installazione') esegua una RILEVAZIONE.
+
+MISSIONE-SENSORE: è stata scelta una cardinalità di tipo 'Molti a Molti' per rappresentare il fatto che un SENSORE possa essere utilizzato anche in multiple missioni: l'entità SENSORE rappresenta il SENSORE in sé e non indica il suo impiego nella MISSIONE di riferimento;
+Inoltre non abbiamo aggiunto un timestamp (sia in RISORSE_2 che nelle altre) perché una singola risorsa può essere associata ad una singola missione una sola volta, perché banalmente dopo un pò essa finisce
+
+MISSIONE-MEMBRO EQUIPAGGIO: è stata scelta una cardinalità di tipo 'Molti a Molti' per rappresentare il fatto che un MEMBRO EQUIPAGGIO possa partecipare anche a multiple missioni. La scelta di inserire l'attributo Ruolo nella relazione RISORSA 3 è utile per evitare ridondanza di informazioni: in questo modo un MEMBRO EQUIPAGGIO può partecipare a diverse missioni anche con ruoli differenti essendo che il ruolo non dipende dal MEMBRO EQUIPAGGIO ma dalla MISSIONE a cui il MEMBRO EQUIPAGGIO partecipa
+
+MISSIONE-ROBOT (N-N): è stata scelta una cardinalità di tipo 'Molti a Molti' per rappresentare il fatto che un ROBOT possa essere utilizzato anche in multiple missioni: l'entità ROBOT rappresenta il ROBOT in sé e non indica il suo impiego nella MISSIONE di riferimento; conseguentemente non è necessario utilizzare attributi aggiuntivi come identificatori all'interno della relazione RISORSA 1

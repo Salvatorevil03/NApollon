@@ -1,0 +1,102 @@
+--1.Visualizzare lo STATO_ATTUALE di una Missione:
+
+SELECT  Codice, Stato_Attuale 
+FROM MISSIONI 
+WHERE Codice = 1;
+
+--2. Elencare i membri dell'equipaggio assegnati a una missione:
+SELECT R.Missione AS CODICE_MISSIONE, ME.Codice AS CODICE_MEMBRO, ME.Nome, ME.Cognome, R.Ruolo
+FROM MEMBRI_EQUIPAGGIO ME
+JOIN RISORSE_3 R
+ON ME.Codice = R.Membro
+WHERE R.Missione = 1;
+
+--2.9. Verificare lo stato operativo dei sensori in un'area geografica //con PL/SQL??
+
+--3.Elencare rilevazioni di un sensore in un intervallo di tempo:  //PL/SQL
+Select S.ID, S.Tipologia, R.Data, R.Ora, R.Valore
+FROM SENSORI S 
+JOIN RILEVAZIONI R
+ON S.ID = R.Sensore
+WHERE S.ID = '*ID Sensore*' AND R.DATA > '*data inizio*' AND R.DATA < '*data fine*';
+
+
+--4.Elencare rilevazioni di un sensore in un intervallo di tempo:  //PL/SQL
+SELECT S.ID, S.Tipologia, R.Data, R.Ora, R.Valore
+FROM SENSORI S
+JOIN RILEVAZIONI R
+  ON S.ID = R.Sensore
+WHERE S.ID = 1 
+  AND R.DATA > TO_DATE('31/12/2023', 'DD/MM/YYYY') 
+  AND R.DATA < TO_DATE('31/12/2099', 'DD/MM/YYYY');
+
+--4.1. Elencare le anomalie che si sono scatenate fino ad una certa data su uno spec. sensore
+SELECT S.ID, S.Tipologia, S.Stato_Operativo AS STATO_OPERATIVO_SENSORE, A.Data AS DATA_ANOMALIA, A.Ora, A.Livello_Priorita, A.Causa 
+FROM SENSORI S 
+JOIN ANOMALIE A
+ON S.ID = A.Sensore
+WHERE S.ID = 1 AND A.DATA<TO_DATE('10/11/2024','DD/MM/YYYY') ;
+
+--5.Controllare le anomalie attive per un sensore:
+SELECT S.ID, S.Tipologia, S.Stato_Operativo AS STATO_OPERATIVO_SENSORE, A.Data AS DATA_ANOMALIA, R.DataEsecuzione, R.Esito, A.Livello_Priorita, A.Causa 
+FROM SENSORI S 
+JOIN ANOMALIE A
+ON S.ID = A.Sensore
+JOIN RISOLUZIONI R
+ON R.AnomaliaSensore = A.Sensore
+WHERE S.ID = 12 AND (R.DataEsecuzione > SYSDATE OR ( R.DataEsecuzione < SYSDATE AND R.Esito = 'FALSE' )) ;
+
+--6.Consultare i report compilati per una missione:
+SELECT  R.Codice AS CODICE_REPORT, R.Testo, R.Data, R.Stato_Comunicato
+FROM REPORT R
+WHERE R.Missione = 19;
+
+
+--7.Identificare i sensori con il maggior numero di anomalie:
+SELECT S.ID AS CODICE_SENSORE, COUNT(*) AS NUM_ANOMALIE
+FROM SENSORI S
+JOIN ANOMALIE A
+ON S.ID = A.Sensore
+GROUP BY S.ID
+HAVING COUNT(*) >= ALL(SELECT COUNT(A2.Sensore)	
+FROM ANOMALIE A2
+GROUP BY A2.Sensore
+);
+
+--8.Calcolare il numero di rilevazioni effettuate per ciascun tipo di sensore in una missione:
+SELECT S.Tipologia, COUNT(S.Tipologia) AS NUM_RILEVAZIONI
+FROM SENSORI S
+JOIN RILEVAZIONI R
+ON S.ID = R.Sensore
+GROUP BY S.Tipologia;
+
+--9.Analizzare il tempo medio (in giorni) di risoluzione delle anomalie:
+SELECT AVG( R.DataEsecuzione - A.Data) AS TEMPO_MEDIO_RISOLUZIONE
+FROM RISOLUZIONI R
+JOIN ANOMALIE A
+ON R.AnomaliaData = A.Data AND R.AnomaliaOra = A.Ora AND R.AnomaliaSensore = A.Sensore
+WHERE R.Esito = 'TRUE';
+
+--10.Trovare i membri dell’equipaggio con il maggior numero di interventi effettuati:
+SELECT C.Membro AS CODICE_MEMBRO, COUNT(*) AS NUM_INTERVENTI
+FROM COINVOLGIMENTI C
+JOIN MEMBRI_EQUIPAGGIO ME
+ON C.Membro = ME.Codice
+GROUP BY C.MEMBRO
+HAVING COUNT(*) >= ALL(SELECT COUNT(C2.Membro)
+FROM COINVOLGIMENTI C2
+GROUP BY C2.Membro
+);
+
+--11. Verificare la percentuale di sensori attivi rispetto al totale:
+SELECT
+    COUNT(CASE WHEN S.stato_operativo='Operativo' THEN 'ForzaNapoli' END) / COUNT(*) * 100 AS Percentuale
+FROM SENSORI S;
+
+--12. Contare il numero di risoluzioni fallite su sensori per missione
+SELECT E.Codice_Missione AS Missione, COUNT(*) AS Risoluzioni_Falliste
+FROM Esiti_per_Anomalie_su_Sensori E
+WHERE E.Esito_Riparazione = 'FALSE'
+GROUP BY E.Codice_Missione;
+
+

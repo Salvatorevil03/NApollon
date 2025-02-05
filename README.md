@@ -1,44 +1,42 @@
 # NApollon
 
-## Descrizione
-NApollon è un sistema informatico avanzato per la gestione e l'analisi dei dati provenienti da missioni di esplorazione lunare. Il progetto ha l'obiettivo di coordinare in tempo reale le attività degli equipaggi, monitorare lo stato operativo di sensori e robot autonomi e gestire le anomalie attraverso interventi specifici.
+## Description  
+NApollon is an advanced information system for managing and analyzing data from lunar exploration missions. The project's goal is to coordinate crew activities in real-time, monitor the operational status of sensors and autonomous robots, and manage anomalies through specific interventions.
 
-## Struttura del Progetto
-### 1. Creazione DB
-- Progettazione concettuale (Modello E/R portante e completo)
-- Trasformazione per la progettazione logica
-- Progettazione logica e fisica
+## Project Structure  
+### 1. Database Creation  
+- Conceptual design (Comprehensive E/R model)  
+- Transformation for logical design  
+- Logical and physical design  
 
-### 2. Ottimizzazione DB
-- Indici per migliorare le prestazioni
-- Gestione della concorrenza (PL2 Stretto, Lock)
-- Affidabilità e Backup (RAID 6)
-- Recovery (File di log, ripresa a caldo e ripresa a freddo)
+### 2. Database Optimization  
+- Indexing for performance improvement  
+- Concurrency management (Strict PL2, Lock)  
+- Reliability and Backup (RAID 6)  
+- Recovery (Log files, warm and cold recovery)  
 
-### 3. Funzionalità
-- Stored Procedure
-- Query
-- Viste
-- Trigger
-- Gestione utenti con permessi specifici
+### 3. Functionality  
+- Stored Procedures  
+- Queries  
+- Views  
+- Triggers  
+- User management with specific permissions  
 
-### 4. Interfaccia Oracle APEX
-- Dashboard e report
-- Mappa lunare real-time
-- Gestione anomalie, manutenzioni e riparazioni
-- Controllo di sicurezza
+### 4. Oracle APEX Interface  
+- Dashboard and reports  
+- Real-time lunar map  
+- Anomaly, maintenance, and repair management  
+- Security control  
 
-## Requisiti
-- Database Oracle
-- Oracle APEX per l'interfaccia utente
-- SQL per l'implementazione delle procedure
+## Requirements  
+- Oracle Database  
+- Oracle APEX for the user interface  
+- SQL for procedure implementation  
 
-## Installazione
-1. Creare il database utilizzando gli script SQL forniti.
-2. Importare le stored procedure, trigger e viste nel database.
-3. Configurare Oracle APEX per la gestione dell'interfaccia utente.
+## Installation  
+1. Create the database using the provided SQL scripts.  
+2. Import the stored procedures, triggers, and views into the database.  
+3. Configure Oracle APEX for user interface management.  
 
-## Licenza
-Questo progetto è distribuito sotto la licenza MIT.
-
-
+## License  
+This project is distributed under the MIT License.
